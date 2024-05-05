@@ -38,7 +38,6 @@ pipeline {
     }
     post {
         failure {
-            // Run this stage if any previous stage fails
         stage('DEPLOY TO TOMCAT') {
             steps {
                 echo 'DEPLOY TO TOMCAT'
