@@ -34,8 +34,9 @@ pipeline {
                 sh 'mvn clean deploy'
             }
         }
-
-        post {
+        
+    }
+    post {
         failure {
             // Run this stage if any previous stage fails
         stage('DEPLOY TO TOMCAT') {
@@ -45,7 +46,5 @@ pipeline {
             }
         }
         }
-    }
-        
     }
 }
