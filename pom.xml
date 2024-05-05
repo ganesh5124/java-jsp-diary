@@ -12,6 +12,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
+         <docker.image.prefix>kammana</docker.image.prefix>
+	<sonar.host.url>http://http://65.2.4.81:9000/</sonar.host.url>
     </properties>
 
     <dependencies>
@@ -41,6 +43,17 @@
             <version>8.3.0</version>
         </dependency>
     </dependencies>
+         <distributionManagement>
+		 <snapshotRepository>
+		    <id>nexusRepo</id>
+		    <url>http://65.2.4.81:8081/repository/dummy-app-snaps/</url>
+		 </snapshotRepository>
+		
+		<repository>
+		    <id>nexusRepo</id>
+		    <url>http://65.2.4.81:8081/repository/dummy-app-release/</url>
+		</repository>
+  	</distributionManagement>
 
     <build>
         <finalName>${project.artifactId}</finalName>
