@@ -44,12 +44,10 @@
         </dependency>
     </dependencies>
    
- <distributionManagement>
-		 <snapshotRepository>
+	 <snapshotRepository>
 		    <id>nexusRepo</id>
 		    <url>http://13.126.218.84:8081/repository/app-snaps/</url>
 		 </snapshotRepository>
-		
 		<repository>
 		    <id>nexusRepo</id>
 		    <url>http://13.126.218.84:8081/repository/app-releases/</url>
