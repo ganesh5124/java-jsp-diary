@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     tools {
-        jdk 'JAVA8'
+      jdk 'JAVA8'
     }
     stages {
         stage('CLONE SCM') {
@@ -13,13 +13,14 @@ pipeline {
         }
         stage('EXCUTE SHELL') {
             steps {
-                echo 'EXECUTING SHELL COMMAND'
+                echo 'CLONING FROM GIT REPO'
                 sh 'mvn clean install'
             }
         }
         stage('EXCUTE SHELL FOR SONAR') {
             steps {
-                echo 'EXECUTING SHELL COMMAND FOR SONAR'
+                echo 'CLONING FROM GIT REPO'
+                echo "DISPLAYING SONAR"
                 sh '''mvn sonar:sonar \\
                   -Dsonar.host.url=http://65.0.179.34:9000 \\
                   -Dsonar.login=9ae5023958a9a2eda6d0387949344df8da191944'''
@@ -27,18 +28,14 @@ pipeline {
         }
         stage('EXCUTE SHELL FOR ARTIFACTORY') {
             steps {
-                echo 'EXECUTING SHELL COMMAND FOR ARTIFACTORY'
+                echo 'CLONING FROM GIT REPO'
                 sh 'mvn clean deploy'
             }
         }
-    }
-    post {
-        failure {
-            stage('DEPLOY TO TOMCAT') {
-                steps {
-                    echo 'DEPLOYING TO TOMCAT'
-                    deploy adapters: [tomcat9(credentialsId: 'tomcat-id', path: '', url: 'http://13.201.74.48:8091')], contextPath: 'JAVA-APP', war: '**/*.war'
-                }
+        stage('DEPLOY TO TOMCAT') {
+            steps {
+                echo 'DEPLOY TO TOMCAT'
+                deploy adapters: [tomcat9(credentialsId: 'tomcat-id', path: '', url: 'http://13.201.74.48:8091')], contextPath: 'JAVA-APP', war: '**/*.war'
             }
         }
     }
