@@ -33,6 +33,12 @@ pipeline {
                 sh 'mvn clean deploy'
             }
         }
+        stage('Parallel Stage') {
+          parallel {
+            echo 'Parallel stage executed'
+          }
+        }
+
         
         stage('DEPLOY TO TOMCAT') {
             steps {
