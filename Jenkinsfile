@@ -22,9 +22,10 @@ pipeline {
                 echo 'CLONING FROM GIT REPO'
                 echo "DISPLAYING SONAR"
                 sh '''mvn sonar:sonar \\
-                  -Dsonar.host.url=http://65.0.179.34:9000 \\
+                  -Dsonar.host.url=http://35.154.206.249:9000 \\
                   -Dsonar.login=9ae5023958a9a2eda6d0387949344df8da191944'''
             }
+         
         }
         stage('EXCUTE SHELL FOR ARTIFACTORY') {
             steps {
@@ -32,10 +33,11 @@ pipeline {
                 sh 'mvn clean deploy'
             }
         }
+        
         stage('DEPLOY TO TOMCAT') {
             steps {
                 echo 'DEPLOY TO TOMCAT'
-                deploy adapters: [tomcat9(credentialsId: 'tomcat-id', path: '', url: 'http://13.201.74.48:8091')], contextPath: 'JAVA-APP', war: '**/*.war'
+                deploy adapters: [tomcat9(credentialsId: 'tomcat-id', path: '', url: 'http://3.110.92.81:8091')], contextPath: 'JAVA-APP', war: '**/*.war'
             }
         }
     }
