@@ -13,28 +13,24 @@ pipeline {
         }
         stage('EXCUTE SHELL') {
             steps {
-                echo 'CLONING FROM GIT REPO'
+                echo 'EXECUTING SHELL COMMAND'
                 sh 'mvn clean install'
             }
         }
         stage('EXCUTE SHELL FOR SONAR') {
             steps {
-                echo 'CLONING FROM GIT REPO'
-                echo "DISPLAYING SONAR"
+                echo 'EXECUTING SHELL COMMAND FOR SONAR'
                 sh '''mvn sonar:sonar \\
                   -Dsonar.host.url=http://35.154.206.249:9000 \\
                   -Dsonar.login=9ae5023958a9a2eda6d0387949344df8da191944'''
             }
-         
         }
         stage('EXCUTE SHELL FOR ARTIFACTORY') {
             steps {
-                echo 'CLONING FROM GIT REPO'
+                echo 'EXECUTING SHELL COMMAND FOR ARTIFACTORY'
                 sh 'mvn clean deploy'
             }
         }
-        
-
         
         stage('DEPLOY TO TOMCAT') {
             steps {
@@ -42,9 +38,8 @@ pipeline {
                 deploy adapters: [tomcat9(credentialsId: 'tomcat-id', path: '', url: 'http://3.110.92.81:8091')], contextPath: 'JAVA-APP', war: '**/*.war'
             }
         }
-    }
-    post {
-        success {
+        
+        stage('Parallel Stages') {
             parallel {
                 stage('Stage 1') {
                     steps {
