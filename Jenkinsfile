@@ -33,17 +33,29 @@ pipeline {
                 sh 'mvn clean deploy'
             }
         }
-        stage('Parallel Stage') {
-          parallel {
-            echo 'Parallel stage executed'
-          }
-        }
+        
 
         
         stage('DEPLOY TO TOMCAT') {
             steps {
                 echo 'DEPLOY TO TOMCAT'
                 deploy adapters: [tomcat9(credentialsId: 'tomcat-id', path: '', url: 'http://3.110.92.81:8091')], contextPath: 'JAVA-APP', war: '**/*.war'
+            }
+        }
+    }
+    post {
+        success {
+            parallel {
+                stage('Stage 1') {
+                    steps {
+                        echo 'Stage 1 executed'
+                    }
+                }
+                stage('Stage 2') {
+                    steps {
+                        echo 'Stage 2 executed'
+                    }
+                }
             }
         }
     }
